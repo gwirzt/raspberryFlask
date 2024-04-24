@@ -1,8 +1,8 @@
 from flask import Flask, render_template, request, jsonify
 
 users = {
-    'gwirzt': {'password':'clave1','token': '1211Gustavo'},
-    'psormani': {'password':'clave1','token':  '1305Patricia'}
+    'gwirzt': {'password':'clave1'},
+    'psormani': {'password':'clave1'}
 }
 
 
@@ -17,9 +17,9 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        token = request.form['token']
+        
 
-        if username in users and users[username]['password'] == password and users[username]['token'] == token:
+        if username in users and users[username]['password'] == password :
             return jsonify({'message': 'Inicio de sesión exitoso'})
         else:
             return jsonify({'message': 'Credenciales inválidas'}), 401
