@@ -20,6 +20,17 @@ Base.metadata.create_all(engine)
 def index():
     return render_template('index.html')
 
+@app.route('/compras')
+def compras():
+    return render_template('compras.html')
+
+@app.route('/ventas')
+def ventas():
+    return render_template('ventas.html')
+
+@app.route('/archivos')
+def archivos():
+    return render_template('archivos.html')
 
 @app.route('/productos', methods=['POST'])
 def create():
