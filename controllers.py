@@ -1,6 +1,7 @@
 from flask import request, jsonify
 from db import session
 from models import Producto
+import json
 
 def create_product():
     # Obtener el JSON enviado en la solicitud
@@ -22,8 +23,9 @@ def create_product():
 
     return jsonify({'message': 'Producto creado exitosamente'}), 201
 
-def read_products():
+def articulos_show():
     productos = productos = session.query(Producto).all() 
-    return jsonify([producto.serialize() for producto in productos])    
+    productos_json = [producto.serialize() for producto in productos]
+    return json.dumps(productos_json)   
 
 

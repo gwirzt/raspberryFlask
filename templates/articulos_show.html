@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de inicio</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="dropdown">
+            <button class="dropbtn">Articulos</button>
+            <div class="dropdown-content">
+                <a href="/">Volver</a>
+            </div>
+        </div>
+    </div>
+
+    <h1>Administración de Artículos</h1>
+
+    <ul id="lista-articulos">
+    </ul>
+
+    <script>
+        // Obtener la lista de artículos
+        var productos = {{ productos| safe }};
+
+        // Obtener el elemento UL donde se mostrarán los artículos
+        var listaArticulos = document.getElementById('lista-articulos');
+
+        // Iterar sobre los productos y crear elementos LI para cada uno
+        productos.forEach(function (producto) {
+            // Crear un elemento LI
+            var listItem = document.createElement('li');
+
+            // Crear elementos para mostrar el nombre, precio y descripción del producto
+            var nombre = document.createElement('strong');
+            nombre.textContent = "Nombre: " + producto.nombre;
+            var precio = document.createElement('span');
+            precio.textContent = "Precio: $" + producto.precio;
+            var descripcion = document.createElement('span');
+            descripcion.textContent = "Descripción: " + producto.descripcion;
+
+            // Agregar los elementos al elemento LI
+            listItem.appendChild(nombre);
+            listItem.appendChild(document.createElement('br'));
+            listItem.appendChild(precio);
+            listItem.appendChild(document.createElement('br'));
+            listItem.appendChild(descripcion);
+            listItem.appendChild(document.createElement('br'));
+
+            // Agregar el elemento LI a la lista UL
+            listaArticulos.appendChild(listItem);
+        });
+    </script>
+</body>
+
+</html>

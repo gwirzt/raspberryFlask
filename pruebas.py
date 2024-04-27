@@ -1,18 +1,11 @@
-from db import Base, engine, session    
-from models import Producto
+from db import Base, engine, session
+from controllers import articulos_show
 
 Base.metadata.create_all(engine)
 
-session.add(Producto('Coca Cola', 1.5, 'Refresco de cola'))
-session.add(Producto('Pepsi', 1.5, 'Refresco de cola'))
-session.add(Producto('Manzana', 1.0, 'Fruta'))
+productos_json = articulos_show()
+print(productos_json)
 
-session.commit()
-
-productos = session.query(Producto).all()
-for producto in productos:
-    print(producto)
-    
 session.close()
 
 

@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 from db import Base, engine
 from models import Producto
-from controllers import create_product, read_products
+from controllers import create_product, articulos_show
 
 
 
@@ -32,15 +32,15 @@ def ventas():
 def archivos():
     return render_template('archivos.html')
 
-@app.route('/productos', methods=['POST'])
-def create():
-    return create_product()
+# @app.route('/articulos', methods=['POST'])
+# def create():
+#     return create_product()
 
-@app.route('/productos', methods=['GET'])
-def read():
-    return read_products()
+@app.route('/articulos_show', methods=['GET'])
+def articulos_listar():
+    productos_json = articulos_show()  # Llama a la función que devuelve los datos de los productos
+    print(productos_json)
+    return render_template('articulos_show.html', productos=productos_json)  # Pasa los datos a la plantilla
 
-
-    
 if __name__ == '__main__':
      app.run(host='0.0.0.0', port=5000, debug=True)
