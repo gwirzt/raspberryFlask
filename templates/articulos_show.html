@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 
-<body>
+<!-- <body>
     <div class="navbar">
         <div class="dropdown">
             <button class="dropbtn">Articulos</button>
@@ -53,6 +53,55 @@
 
             // Agregar el elemento LI a la lista UL
             listaArticulos.appendChild(listItem);
+        });
+    </script>
+</body> -->
+
+<body>
+    <div class="navbar">
+        <div class="dropdown">
+            <button class="dropbtn">Articulos</button>
+            <div class="dropdown-content">
+                <a href="/">Volver</a>
+            </div>
+        </div>
+    </div>
+
+    <h1>Administración de Artículos</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Descripción</th>
+            </tr>
+        </thead>
+        <tbody id="lista-articulos">
+        </tbody>
+    </table>
+
+    <script>
+        var productos = {{ productos| safe }};
+        var listaArticulos = document.getElementById('lista-articulos');
+        productos.forEach(function (producto) {
+            // Crear una fila de tabla
+            var row = document.createElement('tr');
+            // Crear celdas de tabla para mostrar el nombre, precio y descripción del producto
+            var nombreCell = document.createElement('td');
+            nombreCell.textContent = producto.nombre;
+            var precioCell = document.createElement('td');
+            //precioCell.textContent = "$" + producto.precio;
+            precioCell.textContent = "$" + producto.precio.toFixed(2);
+            precioCell.style.textAlign = "right";
+            var descripcionCell = document.createElement('td');
+            descripcionCell.textContent = producto.descripcion;
+            // Agregar las celdas a la fila de la tabla
+            row.appendChild(nombreCell);
+            row.appendChild(precioCell);
+            row.appendChild(descripcionCell);
+            // Agregar la fila de la tabla al cuerpo de la tabla
+            listaArticulos.appendChild(row);
         });
     </script>
 </body>

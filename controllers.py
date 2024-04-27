@@ -24,7 +24,7 @@ def create_product():
     return jsonify({'message': 'Producto creado exitosamente'}), 201
 
 def articulos_show():
-    productos = productos = session.query(Producto).all() 
+    productos = productos = session.query(Producto).order_by(Producto.nombre).all()
     productos_json = [producto.serialize() for producto in productos]
     return json.dumps(productos_json)   
 
