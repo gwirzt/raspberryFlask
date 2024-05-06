@@ -1,6 +1,6 @@
 from flask import request, jsonify
 from db import session
-from models import Producto
+from models.producto import Producto
 import json
 
 def create_product():

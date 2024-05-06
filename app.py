@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 from db import Base, engine
-from models import Producto
-from controllers import create_product, articulos_show
+from models.producto  import Producto
+from controllers.producto import create_product, articulos_show
 
 
 
