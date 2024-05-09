@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscar Productos</title>
+</head>
+
+<body>
+    <h1>Buscar Productos</h1>
+    <form action="{{ url_for('articulos') }}" method="GET">
+        <input type="text" name="palabra_clave" placeholder="Ingrese una palabra clave">
+        <button type="submit">Buscar</button>
+    </form>
+    <ul>
+        {% for producto in productos.items %}
+        <li>{{ producto.nombre }} - {{ producto.descripcion }}</li>
+        {% endfor %}
+    </ul>
+    {% if productos.has_prev %}
+    <a
+        href="{{ url_for('articulos', pagina=productos.prev_num, palabra_clave=request.args.get('palabra_clave', '')) }}">Anterior</a>
+    {% endif %}
+    {% if productos.has_next %}
+    <a
+        href="{{ url_for('articulos', pagina=productos.next_num, palabra_clave=request.args.get('palabra_clave', '')) }}">Siguiente</a>
+    {% endif %}
+</body>
+
+</html>

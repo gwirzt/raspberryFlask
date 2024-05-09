@@ -1,14 +1,19 @@
 from flask import Flask, render_template, request, jsonify
-from db import Base, engine, session
+from db import Base, engine, session, or_
+
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, Integer, String, Text
 
 from models.producto  import Producto
 from models.empleado import Empleado
-#from controllers.producto import create_product, articulos_show
+
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 from flask import redirect
 from flask_babel import Babel
-
+from flask_paginate import Pagination
 
 
 app = Flask(__name__)
@@ -44,11 +49,29 @@ def ventas():
 
 @app.route('/archivos')
 def archivos():
-    return redirect(admin.url)
+    return render_template('archivos.html')
 
-@app.route('/archivos2')
-def archivos2():
-    return redirect(admin.url)
+@app.route('/productos',methods=['GET', 'POST'])
+def articulos():
+    pagina = request.args.get('pagina', 1, type=int)
+    palabra_clave = request.args.get('palabra_clave', '', type=str)
+    if palabra_clave:
+        consulta = session.query(Producto).filter(or_(Producto.nombre.contains(palabra_clave), Producto.descripcion.contains(palabra_clave))).paginate(page=pagina, per_page=10)
+    else:
+        consulta = session.query(Producto)
+        
+    productos = consulta.paginate(page=pagina, per_page=10)
+    
+    return render_template('productos.html', productos=productos)
+    
+
+# @app.route('/archivos')
+# def archivos():
+#     return redirect(admin.url)
+
+# @app.route('/archivos2')
+# def archivos2():
+#     return redirect(admin.url)
 
 
 
