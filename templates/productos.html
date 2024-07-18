@@ -1,32 +1,69 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buscar Productos</title>
+    <title>Página de inicio</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 
 <body>
-    <h1>Buscar Productos</h1>
-    <form action="{{ url_for('articulos') }}" method="GET">
-        <input type="text" name="palabra_clave" placeholder="Ingrese una palabra clave">
-        <button type="submit">Buscar</button>
-    </form>
-    <ul>
-        {% for producto in productos.items %}
-        <li>{{ producto.nombre }} - {{ producto.descripcion }}</li>
-        {% endfor %}
-    </ul>
-    {% if productos.has_prev %}
-    <a
-        href="{{ url_for('articulos', pagina=productos.prev_num, palabra_clave=request.args.get('palabra_clave', '')) }}">Anterior</a>
-    {% endif %}
-    {% if productos.has_next %}
-    <a
-        href="{{ url_for('articulos', pagina=productos.next_num, palabra_clave=request.args.get('palabra_clave', '')) }}">Siguiente</a>
-    {% endif %}
+    <div class="navbar">
+        <div class="dropdown">
+            <button class="dropbtn">Articulos</button>
+            <div class="dropdown-content">
+                <a href="/">Volver</a>
+            </div>
+        </div>
+    </div>
+
+    <h1>Administración de Artículos</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Editar</th>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Descripción</th>
+            </tr>
+        </thead>
+        <tbody id="lista-articulos">
+        </tbody>
+    </table>
+
+    <script>
+        var productos = {{ productos| safe }};
+        var listaArticulos = document.getElementById('lista-articulos');
+        productos.forEach(function (producto) {
+            // Crear una fila de tabla
+            var row = document.createElement('tr');
+            // Crear celdas de tabla para mostrar el nombre, precio y descripción del producto
+            var idCell = document.createElement('td');
+            var idLink = document.createElement('a');
+            idLink.textContent = producto.id;
+            idLink.href = "/detalle_producto?id=" + producto.id; // Establecer el enlace a la página de detalles
+            idCell.appendChild(idLink);//idCell.textContent = producto.id;
+            idCell.style.textAlign = "right";
+
+            var nombreCell = document.createElement('td');
+            nombreCell.textContent = producto.nombre;
+            var precioCell = document.createElement('td');
+            //precioCell.textContent = "$" + producto.precio;
+            precioCell.textContent = "$" + producto.precio.toFixed(2);
+            precioCell.style.textAlign = "right";
+            var descripcionCell = document.createElement('td');
+            descripcionCell.textContent = producto.descripcion;
+            // Agregar las celdas a la fila de la tabla
+            row.appendChild(idCell);
+            row.appendChild(nombreCell);
+            row.appendChild(precioCell);
+            row.appendChild(descripcionCell);
+            // Agregar la fila de la tabla al cuerpo de la tabla
+            listaArticulos.appendChild(row);
+        });
+    </script>
 </body>
 
 </html>

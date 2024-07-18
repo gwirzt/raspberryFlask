@@ -29,3 +29,12 @@
 #     return json.dumps(productos_json)   
 
 
+from db import session
+from models.producto import Producto
+import json
+
+
+def productos_show():
+    productos = productos = session.query(Producto).order_by(Producto.nombre).all()
+    productos_json = [producto.serialize() for producto in productos]
+    return json.dumps(productos_json)   

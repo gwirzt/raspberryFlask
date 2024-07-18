@@ -9,6 +9,9 @@ from sqlalchemy import Column, Integer, String, Text
 from models.producto  import Producto
 from models.empleado import Empleado
 
+from controllers.producto import productos_show
+
+
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 from flask import redirect
@@ -52,17 +55,10 @@ def archivos():
     return render_template('archivos.html')
 
 @app.route('/productos',methods=['GET', 'POST'])
-def articulos():
-    pagina = request.args.get('pagina', 1, type=int)
-    palabra_clave = request.args.get('palabra_clave', '', type=str)
-    if palabra_clave:
-        consulta = session.query(Producto).filter(or_(Producto.nombre.contains(palabra_clave), Producto.descripcion.contains(palabra_clave))).paginate(page=pagina, per_page=10)
-    else:
-        consulta = session.query(Producto)
-        
-    productos = consulta.paginate(page=pagina, per_page=10)
+def productos():
+    productos = productos_show()
     
-    return render_template('productos.html', productos=productos)
+    return render_template('productos2.html', productos=productos)
     
 
 # @app.route('/archivos')
